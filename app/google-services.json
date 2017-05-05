@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "942330349799",
+    "firebase_url": "https://savethehacker-84b6e.firebaseio.com",
+    "project_id": "savethehacker-84b6e",
+    "storage_bucket": "savethehacker-84b6e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:942330349799:android:410f8418abee935f",
+        "android_client_info": {
+          "package_name": "kmzenon.savethehacker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "942330349799-cpo64jnegjt0pvfpcu8n3ns30s3rasc7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kmzenon.savethehacker",
+            "certificate_hash": "93de6cf2515a2a89d2e58862568fa4bd4833508a"
+          }
+        },
+        {
+          "client_id": "942330349799-bjha1bflnedf10c3n8qngn2967n4iv72.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCxEEzPfE7GnyLHgrI4t7fGvbxvf0rNd0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "942330349799-bjha1bflnedf10c3n8qngn2967n4iv72.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
