@@ -1,19 +1,29 @@
 package kmzenon.savethehacker;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
+
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class Register extends AppCompatActivity {
+    private FirebaseAuth mAuth;
     private static final String TAG = "Register";
 
     @InjectView(R.id.input_name) EditText _nameText;
@@ -27,6 +37,8 @@ public class Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         ButterKnife.inject(this);
+
+        mAuth = FirebaseAuth.getInstance();
 
         _signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +76,19 @@ public class Register extends AppCompatActivity {
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
-        // TODO: Implement your own signup logic here.
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getApplicationContext(), Login.class));
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
         new android.os.Handler().postDelayed(
                 new Runnable() {
