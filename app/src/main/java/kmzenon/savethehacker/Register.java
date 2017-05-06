@@ -93,7 +93,7 @@ public class Register extends AppCompatActivity {
             };
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
             requestQueue.add(stringRequest);
-            Toast.makeText(getApplicationContext(), "User Register", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Successfully registered!", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(getApplicationContext(), Login.class));
             //Sign Up
 

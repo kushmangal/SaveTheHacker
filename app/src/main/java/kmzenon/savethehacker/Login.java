@@ -90,7 +90,7 @@ public class Login extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 if(mypass.equals(checkpass)) {
-                    Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
+                    Intent intent1 = new Intent(getApplicationContext(), CropActivity.class);
                     SharedPreferences sharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("ID",id);
