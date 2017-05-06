@@ -6,6 +6,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,8 +27,12 @@ import com.android.volley.toolbox.Volley;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.crypto.spec.RC2ParameterSpec;
 
 /**
  * Created by Naray on 06-05-2017.
@@ -31,9 +40,13 @@ import java.util.Map;
 public class BidActivity extends AppCompatActivity {
 
     private TextView nametv, msptv, remprodtv, totprodtv, croptv;
-    private ListView bidlistview;
     private FloatingActionButton fab;
     private String crop, agency, msp, total, remaining, id,vid;
+    private RecyclerView recyclerView;
+    private BidListAdapter bidListAdapter;
+    private List<Bid> bidList = new ArrayList<>();
+    private ArrayList<String> quantities;
+    private ArrayList<Integer> prices;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,7 +55,48 @@ public class BidActivity extends AppCompatActivity {
         nametv = (TextView) findViewById(R.id.bid_agency_name);
         croptv = (TextView) findViewById(R.id.bid_crop);
         msptv = (TextView) findViewById(R.id.bid_msp);
-        bidlistview = (ListView) findViewById(R.id.bidlist);
+
+        recyclerView = (RecyclerView) findViewById(R.id.bidlist);
+        quantities = new ArrayList<>();
+        prices = new ArrayList<>();
+
+        bidListAdapter = new BidListAdapter(bidList);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(bidListAdapter);
+
+        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+
+            GestureDetector gestureDetector = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener() {
+
+                @Override
+                public boolean onSingleTapUp(MotionEvent e) {
+                    return true;
+                }
+
+            });
+
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+
+                final View child = rv.findChildViewUnder(e.getX(), e.getY());
+                if (child != null && gestureDetector.onTouchEvent(e)) {
+                    final int i = rv.getChildAdapterPosition(child);
+                }
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
 
         Intent intent = getIntent();
         crop = intent.getStringExtra("crop");
