@@ -1,26 +1,27 @@
 package kmzenon.savethehacker;
 
-import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
-
-import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Login extends AppCompatActivity {
 
@@ -52,7 +53,7 @@ public class Login extends AppCompatActivity {
                 if(TextUtils.isEmpty(email)||TextUtils.isEmpty(pass))
                     Toast.makeText(getApplicationContext(), "Please enter the credentials", Toast.LENGTH_SHORT).show();
                 else {
-
+                        validate(email,pass);
                     //Login
 
                 }
@@ -69,5 +70,48 @@ public class Login extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_SIGNUP);
             }
         });
+    }
+    String mypass;String checkpass,id;
+    public void validate(String email , String pass)
+    {
+        mypass=pass;
+        StringRequest stringRequest = new StringRequest("http://savethe.pe.hu/getUser.php?email="+email, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray result = jsonObject.getJSONArray("result");
+                    JSONObject crop_json = result.getJSONObject(0);
+                    checkpass=crop_json.getString("password");
+                    id=crop_json.getString("id");
+                    Log.d(TAG,result.toString());
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if(mypass.equals(checkpass)) {
+                    Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
+                    SharedPreferences sharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("ID",id);
+                    editor.putBoolean("ISGUEST",false);
+                    editor.apply();
+//                    intent1.putExtra("comid",comid);
+//                    intent1.putExtra("guest","");
+                    startActivity(intent1);
+                }
+                else
+                    Toast.makeText(getApplicationContext(),"Wrong Password",Toast.LENGTH_SHORT).show();
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Toast.makeText(mycontext,error.getMessage().toString(),Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
     }
 }
