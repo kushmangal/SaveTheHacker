@@ -97,6 +97,7 @@ public class Login extends AppCompatActivity {
                 if(mypass.equals(checkpass)) {
                     progressDialog.dismiss();
                     Intent intent1 = new Intent(getApplicationContext(), CropActivity.class);
+                    intent1.putExtra("id",id);
                     SharedPreferences sharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("ID",id);

@@ -30,9 +30,6 @@
         <activity android:name=".BidActivity">
 
         </activity>
-        <activity android:name=".MakeBidActivity">
-
-        </activity>
     </application>
 
 </manifest>

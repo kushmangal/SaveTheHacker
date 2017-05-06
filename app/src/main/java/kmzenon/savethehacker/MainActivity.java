@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Integer> remaining;
     private ArrayList<Integer> id;
     String c;
+    String vid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String crop = intent.getStringExtra("crop");
         c = crop;
+        vid=intent.getStringExtra("vid");
+
         getSupportActionBar().setTitle(crop);
         recyclerView = (RecyclerView) findViewById(R.id.agencylist);
 
@@ -89,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra("total", totaltemp);
                     intent.putExtra("remaining", remainingtemp);
                     intent.putExtra("id", idtemp);
-
+                    intent.putExtra("vid",vid);
                     startActivity(intent);
                 }
                 return false;

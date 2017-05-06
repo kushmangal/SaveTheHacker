@@ -13,7 +13,7 @@ import android.widget.ImageView;
 public class CropActivity  extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView wheatimg, riceimg, dalimg;
-
+    String vid;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,7 +22,8 @@ public class CropActivity  extends AppCompatActivity implements View.OnClickList
         wheatimg = (ImageView) findViewById(R.id.wheat_img);
         riceimg = (ImageView) findViewById(R.id.rice_img);
         dalimg = (ImageView) findViewById(R.id.dal_img);
-
+        Intent intent = getIntent();
+        vid = intent.getStringExtra("id");
         wheatimg.setOnClickListener(this);
         riceimg.setOnClickListener(this);
         dalimg.setOnClickListener(this);
@@ -33,17 +34,20 @@ public class CropActivity  extends AppCompatActivity implements View.OnClickList
         if(view==wheatimg){
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
             i.putExtra("crop", "Wheat");
+            i.putExtra("vid",vid);
             startActivity(i);
         }
 
         if(view==riceimg){
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
             i.putExtra("crop", "Rice");
+            i.putExtra("vid",vid);
             startActivity(i);
         }
         if(view==dalimg){
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
             i.putExtra("crop", "Dal");
+            i.putExtra("vid",vid);
             startActivity(i);
         }
     }
