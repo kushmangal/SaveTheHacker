@@ -3,30 +3,76 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-    <ImageView
-        android:layout_width="400dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_weight="0.33"
+        android:padding="15dp">
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/wheat_img"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.3"
-        android:src="@drawable/wheat" />
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
+        android:layout_height="match_parent"
+        android:src="@drawable/wheat"
+        app:civ_border_width="2dp"
+        app:civ_border_color="#FF000000"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Wheat"
+            android:textSize="25sp"/>
+    </LinearLayout>
 
-    <ImageView
-        android:layout_width="400dp"
-        android:layout_height="0dp"
-        android:id="@+id/rice_img"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.3"
-        android:src="@drawable/rice" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.33"
+            android:padding="15dp">
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/rice_img"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="match_parent"
+                android:src="@drawable/rice"
+                app:civ_border_width="2dp"
+                app:civ_border_color="#FF000000"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Rice"
+                android:textSize="25sp"/>
+        </LinearLayout>
 
-    <ImageView
-        android:layout_width="400dp"
-        android:layout_height="0dp"
-        android:id="@+id/dal_img"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.3"
-        android:src="@drawable/dal" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.33"
+                android:padding="15dp">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/dal_img"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/dal"
+                    app:civ_border_width="2dp"
+                    app:civ_border_color="#FF000000"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Dal"
+                    android:textSize="25sp"/>
+            </LinearLayout>
+
+
 
 
 </LinearLayout>
