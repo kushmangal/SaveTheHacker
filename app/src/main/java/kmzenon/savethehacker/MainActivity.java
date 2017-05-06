@@ -25,15 +25,16 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private AgencyListAdapter agencyListAdapter;
     private List<Agency> agencyList = new ArrayList<>();
-
+    private String c;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         Intent intent = getIntent();
-        String title = intent.getStringExtra("crop");
-        getSupportActionBar().setTitle(title);
+        String crop = intent.getStringExtra("crop");
+        c=crop;
+        getSupportActionBar().setTitle(crop);
         recyclerView = (RecyclerView) findViewById(R.id.agencylist);
 
         agencyListAdapter = new AgencyListAdapter(agencyList);
@@ -41,14 +42,14 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(agencyListAdapter);
-
-        prepareAgencyData();
+        getData();
     }
-    ArrayList<String> arrayList = new ArrayList<>();
-    ArrayList<String> arrayList1 = new ArrayList<>();
-    ArrayList<String> arrayList2 = new ArrayList<>();
-    ArrayList<String> arrayList3 = new ArrayList<>();
-    ArrayList<String> arrayList4 = new ArrayList<>();
+    ArrayList<String> name = new ArrayList<>();
+    ArrayList<Integer> msp = new ArrayList<>();
+    ArrayList<Integer> total = new ArrayList<>();
+    ArrayList<Integer> remaining = new ArrayList<>();
+    ArrayList<Integer> id = new ArrayList<>();
+
     public void getData()
     {
         //loading = ProgressDialog.show(mycontext,"Please wait...","Fetching...",false,false);
@@ -71,28 +72,25 @@ public class MainActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
     private void showJSON(String response) {
-        String pro = "";
-        String bar = "";
-        String pr = "";
-        String image = "";
-        String rat = "";
-        String id = "";
+        String jname = "";
+       int jmsp = 0;
+        int jtot = 0;
+        int jrem = 0;
+        int agen=0;
         try {
             JSONArray contacts = new JSONArray(response);
             for (int j = 0; j < contacts.length(); j++) {
                 JSONObject c = contacts.getJSONObject(j);
-                pro = c.getString("district");
-                arrayList.add(pro);
-                bar = c.getString("msp");
-                arrayList1.add(bar);
-                image = c.getString("crop");
-                arrayList2.add(image);
-                pr = c.getString("sum(crop.quantity)");
-                arrayList3.add(pr);
-                centerid=c.getString("cid");
-                arrayList4.add(centerid);
-
-
+                jname = c.getString("agency.name");
+                name.add(jname);
+                jmsp = Integer.parseInt(c.getString("msp.msp"));
+                msp.add(jmsp);
+                jtot = Integer.parseInt(c.getString("sum(crop.quantity)"));
+                total.add(jtot);
+                jrem = jtot-Integer.parseInt(c.getString("sum(bid.quantity)"));
+                remaining.add(jrem);
+                agen=Integer.parseInt(c.getString("agency.id"));
+                id.add(agen);
             }
             prepare();
         } catch (JSONException e) {
@@ -109,28 +107,18 @@ public class MainActivity extends AppCompatActivity {
      * Adding few albums for testing
      */
     private void prepare() {
-        for (int i = 0; i < arrayList.size(); i++) {
+        for (int i = 0; i < name.size(); i++) {
 
-            String product = arrayList.get(i);
-            String bar = arrayList1.get(i);
-            String imgsrc = arrayList2.get(i);
-            String price = arrayList3.get(i);
-            String id= arrayList4.get(i);
-            Crop a = new Crop(product, bar,"http://kmzenon.pe.hu/app/wheat.jpg",price,id,company);
-            cropList.add(a);
-
+            String vname = name.get(i);
+            int vmsp = msp.get(i);
+            int vtot = total.get(i);
+            int vrem = remaining.get(i);
+            int vgen= id.get(i);
+            Agency a = new Agency(vname, vmsp,vtot,vrem,vgen);
+            agencyList.add(a);
+            agencyListAdapter.notifyDataSetChanged();
         }
-
-        adapter.notifyDataSetChanged();
-        swipeRefreshLayout.setRefreshing(false);
     }
 
-    private void prepareAgencyData(){
-
-        Agency agency = new Agency("Neduvaasal", 120, "400 quintals", "50 quintals");
-        agencyList.add(agency);
-        agencyListAdapter.notifyDataSetChanged();
-
-    }
 
 }
