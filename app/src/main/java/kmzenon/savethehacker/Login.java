@@ -71,7 +71,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Start the Signup activity
-                Intent intent = new Intent(getApplicationContext(), Register.class);
+                Intent intent = new Intent(getApplicationContext(), CropActivity.class);
                 startActivityForResult(intent, REQUEST_SIGNUP);
             }
         });

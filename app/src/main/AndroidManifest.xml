@@ -27,6 +27,12 @@
         <activity android:name=".CropActivity">
 
         </activity>
+        <activity android:name=".BidActivity">
+
+        </activity>
+        <activity android:name=".MakeBidActivity">
+
+        </activity>
     </application>
 
 </manifest>

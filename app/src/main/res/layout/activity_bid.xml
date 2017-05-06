@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:textStyle="bold"
         android:textColor="@android:color/white"
         android:id="@+id/bid_agency_name"
@@ -20,27 +20,49 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@android:color/white"
+        android:id="@+id/bid_crop"
+        android:layout_below="@id/bid_agency_name"
+        android:text="Crop : "/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
         android:textColor="@android:color/white"
         android:id="@+id/bid_msp"
+        android:layout_below="@id/bid_crop"
         android:text="MSP : "/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:layout_below="@id/bid_msp"
+        android:textColor="@android:color/white"
         android:id="@+id/bid_remainingprod"
-        android:text="Remaining Production :"/>
+        android:text="Remaining Production : "/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="14sp"
         android:id="@+id/bid_totalprod"
+        android:layout_below="@id/bid_remainingprod"
         android:textColor="@android:color/white"
-        android:text="Total Production :"/>
+        android:text="Total Production : "/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="14sp"
         android:textColor="@android:color/white"
+        android:layout_below="@id/bid_totalprod"
         android:id="@+id/bidlist"
         />
 
@@ -50,7 +72,8 @@
         android:layout_width="wrap_content"
         app:backgroundTint="#CDDC39"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
         app:fabSize="normal"
         android:layout_margin="25dp"
         app:elevation="8dp"

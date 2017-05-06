@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Integer> remaining;
     private ArrayList<Integer> id;
     String c;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,13 +58,60 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(agencyListAdapter);
         getData();
+
+        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+
+            GestureDetector gestureDetector = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener() {
+
+                @Override
+                public boolean onSingleTapUp(MotionEvent e) {
+                    return true;
+                }
+
+            });
+
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+
+                final View child = rv.findChildViewUnder(e.getX(), e.getY());
+                if (child != null && gestureDetector.onTouchEvent(e)) {
+                    final int i = rv.getChildAdapterPosition(child);
+                    //name, msp, total, remaining, id, c
+                    String nametemp = name.get(i);
+                    String msptemp = msp.get(i).toString();
+                    String totaltemp = total.get(i).toString();
+                    String remainingtemp = remaining.get(i).toString();
+                    String idtemp = id.get(i).toString();
+                    Intent intent = new Intent(MainActivity.this, BidActivity.class);
+                    intent.putExtra("crop", c);
+                    intent.putExtra("agency", nametemp);
+                    intent.putExtra("msp", msptemp);
+                    intent.putExtra("total", totaltemp);
+                    intent.putExtra("remaining", remainingtemp);
+                    intent.putExtra("id", idtemp);
+
+                    startActivity(intent);
+                }
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+
     }
 
-    public void getData()
-    {
+    public void getData() {
         //loading = ProgressDialog.show(mycontext,"Please wait...","Fetching...",false,false);
 
-        String url = "http://savethe.pe.hu/production.php?crop="+c;
+        String url = "http://savethe.pe.hu/production.php?crop=" + c;
         StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -77,12 +128,13 @@ public class MainActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(stringRequest);
     }
+
     private void showJSON(String response) {
         String jname = "";
-       int jmsp = 0;
+        int jmsp = 0;
         int jtot = 0;
         int jrem = 0;
-        int agen=0;
+        int agen = 0;
         try {
             JSONArray contacts = new JSONArray(response);
             for (int j = 0; j < contacts.length(); j++) {
@@ -93,9 +145,9 @@ public class MainActivity extends AppCompatActivity {
                 msp.add(jmsp);
                 jtot = Integer.parseInt(c.getString("sum(crop.quantity)"));
                 total.add(jtot);
-                jrem = jtot-Integer.parseInt(c.getString("sum(bid.quantity)"));
+                jrem = jtot - Integer.parseInt(c.getString("sum(bid.quantity)"));
                 remaining.add(jrem);
-                agen=Integer.parseInt(c.getString("id"));
+                agen = Integer.parseInt(c.getString("id"));
                 id.add(agen);
             }
             prepare();
@@ -119,8 +171,8 @@ public class MainActivity extends AppCompatActivity {
             int vmsp = msp.get(i);
             int vtot = total.get(i);
             int vrem = remaining.get(i);
-            int vgen= id.get(i);
-            Agency a = new Agency(vname, vmsp,vtot,vrem,vgen);
+            int vgen = id.get(i);
+            Agency a = new Agency(vname, vmsp, vtot, vrem, vgen);
             agencyList.add(a);
         }
         agencyListAdapter.notifyDataSetChanged();
