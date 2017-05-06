@@ -24,11 +24,19 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:foregroundTint="#D3D3D3"
+            android:backgroundTint="#D3D3D3"
+            android:textColorHint="#D3D3D3"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_email"
+            <EditText
+                android:id="@+id/input_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:foregroundTint="#D3D3D3"
+                android:backgroundTint="#D3D3D3"
+                android:textColorHint="#D3D3D3"
                 android:inputType="textEmailAddress"
                 android:hint="Email" />
         </android.support.design.widget.TextInputLayout>
@@ -37,22 +45,30 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:foregroundTint="#D3D3D3"
+            android:backgroundTint="#D3D3D3"
+            android:textColorHint="#D3D3D3"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
             <EditText android:id="@+id/input_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
                 android:inputType="textPassword"
+                android:foregroundTint="#D3D3D3"
+                android:backgroundTint="#D3D3D3"
+                android:textColorHint="#D3D3D3"
                 android:hint="Password"/>
         </android.support.design.widget.TextInputLayout>
 
-        <android.support.v7.widget.AppCompatButton
+        <Button
             android:id="@+id/btn_login"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:padding="12dp"
+            android:textColor="@android:color/white"
             android:background="@color/colorPrimary"
             android:text="Login"/>
 
@@ -60,7 +76,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:text="No account yet? Create one"
+            android:textColor="@android:color/white"
+            android:text="Don't have an account? Register here!"
             android:gravity="center"
             android:textSize="16dip"/>
 
