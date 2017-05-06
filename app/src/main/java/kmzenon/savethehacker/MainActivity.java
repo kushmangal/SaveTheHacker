@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private AgencyListAdapter agencyListAdapter;
     private List<Agency> agencyList = new ArrayList<>();
-    private String c;
+    String c;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,16 +33,18 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String crop = intent.getStringExtra("crop");
-        c=crop;
+        c = crop;
         getSupportActionBar().setTitle(crop);
         recyclerView = (RecyclerView) findViewById(R.id.agencylist);
 
         agencyListAdapter = new AgencyListAdapter(agencyList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+
+        getData();
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(agencyListAdapter);
-        getData();
+
     }
     ArrayList<String> name = new ArrayList<>();
     ArrayList<Integer> msp = new ArrayList<>();
@@ -54,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     {
         //loading = ProgressDialog.show(mycontext,"Please wait...","Fetching...",false,false);
 
-        String url = "http://savethe.pe.hu/production.php";
+        String url = "http://savethe.pe.hu/production.php?crop="+c;
         StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -81,15 +83,15 @@ public class MainActivity extends AppCompatActivity {
             JSONArray contacts = new JSONArray(response);
             for (int j = 0; j < contacts.length(); j++) {
                 JSONObject c = contacts.getJSONObject(j);
-                jname = c.getString("agency.name");
+                jname = c.getString("name");
                 name.add(jname);
-                jmsp = Integer.parseInt(c.getString("msp.msp"));
+                jmsp = Integer.parseInt(c.getString("msp"));
                 msp.add(jmsp);
                 jtot = Integer.parseInt(c.getString("sum(crop.quantity)"));
                 total.add(jtot);
                 jrem = jtot-Integer.parseInt(c.getString("sum(bid.quantity)"));
                 remaining.add(jrem);
-                agen=Integer.parseInt(c.getString("agency.id"));
+                agen=Integer.parseInt(c.getString("id"));
                 id.add(agen);
             }
             prepare();
@@ -116,7 +118,6 @@ public class MainActivity extends AppCompatActivity {
             int vgen= id.get(i);
             Agency a = new Agency(vname, vmsp,vtot,vrem,vgen);
             agencyList.add(a);
-            agencyListAdapter.notifyDataSetChanged();
         }
     }
 
