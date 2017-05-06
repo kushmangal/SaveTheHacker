@@ -25,6 +25,11 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private AgencyListAdapter agencyListAdapter;
     private List<Agency> agencyList = new ArrayList<>();
+    private ArrayList<String> name;
+    private ArrayList<Integer> msp;
+    private ArrayList<Integer> total;
+    private ArrayList<Integer> remaining;
+    private ArrayList<Integer> id;
     String c;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,20 +42,19 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(crop);
         recyclerView = (RecyclerView) findViewById(R.id.agencylist);
 
+        name = new ArrayList<>();
+        msp = new ArrayList<>();
+        total = new ArrayList<>();
+        remaining = new ArrayList<>();
+        id = new ArrayList<>();
+
         agencyListAdapter = new AgencyListAdapter(agencyList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-
-        getData();
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(agencyListAdapter);
-
+        getData();
     }
-    ArrayList<String> name = new ArrayList<>();
-    ArrayList<Integer> msp = new ArrayList<>();
-    ArrayList<Integer> total = new ArrayList<>();
-    ArrayList<Integer> remaining = new ArrayList<>();
-    ArrayList<Integer> id = new ArrayList<>();
 
     public void getData()
     {
@@ -119,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
             Agency a = new Agency(vname, vmsp,vtot,vrem,vgen);
             agencyList.add(a);
         }
+        agencyListAdapter.notifyDataSetChanged();
     }
 
 

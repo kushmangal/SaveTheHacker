@@ -43,8 +43,8 @@ public class AgencyListAdapter extends RecyclerView.Adapter<AgencyListAdapter.My
         Agency agency = agencyList.get(position);
         holder.nametv.setText(agency.getName());
         holder.msptv.setText(agency.getMsp() + "");
-        holder.totalprodtv.setText(agency.getTotal_prod());
-        holder.remainingtv.setText(agency.getRemaining_prod());
+        holder.totalprodtv.setText(agency.getTotal_prod()+"");
+        holder.remainingtv.setText(agency.getRemaining_prod()+"");
     }
 
     @Override
