@@ -3,6 +3,8 @@ package kmzenon.savethehacker;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -23,7 +25,13 @@ public class MainActivity extends AppCompatActivity {
         String title = intent.getStringExtra("crop");
         getSupportActionBar().setTitle(title);
         recyclerView = (RecyclerView) findViewById(R.id.agencylist);
-        agencyListAdapter = new AgencyListAdapter();
+
+        agencyListAdapter = new AgencyListAdapter(agencyList);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(agencyListAdapter);
+
         prepareAgencyData();
     }
 

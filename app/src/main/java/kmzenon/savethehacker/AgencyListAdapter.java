@@ -27,7 +27,7 @@ public class AgencyListAdapter extends RecyclerView.Adapter<AgencyListAdapter.My
         }
     }
 
-    public void AgencyListAdapter(List<Agency> agencyList) {
+    public AgencyListAdapter(List<Agency> agencyList) {
         this.agencyList = agencyList;
     }
 
