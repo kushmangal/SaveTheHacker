@@ -44,7 +44,11 @@ public class MainActivity extends AppCompatActivity {
 
         prepareAgencyData();
     }
-
+    ArrayList<String> arrayList = new ArrayList<>();
+    ArrayList<String> arrayList1 = new ArrayList<>();
+    ArrayList<String> arrayList2 = new ArrayList<>();
+    ArrayList<String> arrayList3 = new ArrayList<>();
+    ArrayList<String> arrayList4 = new ArrayList<>();
     public void getData()
     {
         //loading = ProgressDialog.show(mycontext,"Please wait...","Fetching...",false,false);
@@ -63,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        RequestQueue requestQueue = Volley.newRequestQueue(mycontext);
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(stringRequest);
     }
     private void showJSON(String response) {
