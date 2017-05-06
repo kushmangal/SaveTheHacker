@@ -1,5 +1,6 @@
 package kmzenon.savethehacker;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,6 +28,7 @@ public class Login extends AppCompatActivity {
 
     private static final String TAG = "Login";
     private static final int REQUEST_SIGNUP = 0;
+    private ProgressDialog progressDialog;
 
     EditText email_et, pass_et;
     Button signin_btn;
@@ -53,6 +55,9 @@ public class Login extends AppCompatActivity {
                 if(TextUtils.isEmpty(email)||TextUtils.isEmpty(pass))
                     Toast.makeText(getApplicationContext(), "Please enter the credentials", Toast.LENGTH_SHORT).show();
                 else {
+                    progressDialog = new ProgressDialog(Login.this);
+                    progressDialog.setMessage("Signing in...");
+                    progressDialog.show();
                         validate(email,pass);
                     //Login
 
@@ -90,18 +95,22 @@ public class Login extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 if(mypass.equals(checkpass)) {
+                    progressDialog.dismiss();
                     Intent intent1 = new Intent(getApplicationContext(), CropActivity.class);
                     SharedPreferences sharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("ID",id);
                     editor.putBoolean("ISGUEST",false);
                     editor.apply();
+                    Toast.makeText(getApplicationContext(), "Login Successful!", Toast.LENGTH_SHORT).show();
 //                    intent1.putExtra("comid",comid);
 //                    intent1.putExtra("guest","");
                     startActivity(intent1);
                 }
-                else
-                    Toast.makeText(getApplicationContext(),"Wrong Password",Toast.LENGTH_SHORT).show();
+                else {
+                    progressDialog.dismiss();
+                    Toast.makeText(getApplicationContext(), "Wrong Password", Toast.LENGTH_SHORT).show();
+                }
             }
         },
                 new Response.ErrorListener() {
