@@ -15,7 +15,7 @@
         android:textStyle="bold"
         android:textColor="@android:color/white"
         android:id="@+id/bid_agency_name"
-        android:text="Agency name : "/>
+        android:text="Agency Name : "/>
 
     <TextView
         android:layout_width="match_parent"
