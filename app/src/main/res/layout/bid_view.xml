@@ -45,7 +45,7 @@
         android:layout_below="@+id/note"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
-        android:background="@android:color/white"
+        android:background="#ffffff"
         android:text="Proceed"
         android:textColor="@color/colorAccent"/>
 

@@ -7,19 +7,30 @@
     android:padding="12dp"
     android:background="#473559"
     android:orientation="vertical">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:id="@+id/lll"
+    android:background="#2c1840"
+    android:elevation="10dp"
+    android:padding="10dp"
+    android:orientation="vertical"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentStart="true">
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+        android:layout_weight="0.25"
+    android:textSize="16sp"
+    android:textStyle="bold"
+    android:textColor="@android:color/white"
+    android:id="@+id/bid_agency_name"
+    android:text="Agency Name : "/>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/white"
-        android:id="@+id/bid_agency_name"
-        android:text="Agency Name : "/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.25"
         android:textSize="14sp"
         android:textColor="@android:color/white"
         android:id="@+id/bid_crop"
@@ -28,30 +39,26 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.25"
         android:textSize="14sp"
         android:textColor="@android:color/white"
         android:id="@+id/bid_msp"
         android:layout_below="@id/bid_crop"
         android:text="MSP : "/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:layout_below="@id/bid_msp"
-        android:textColor="@android:color/white"
-        android:id="@+id/bid_remainingprod"
-        android:text="Remaining Production : "/>
+
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.25"
         android:textSize="14sp"
         android:id="@+id/bid_totalprod"
-        android:layout_below="@id/bid_remainingprod"
         android:textColor="@android:color/white"
         android:text="Total Production : "/>
+</LinearLayout>
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -61,8 +68,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="14sp"
+        android:layout_marginTop="15dp"
         android:textColor="@android:color/white"
-        android:layout_below="@id/bid_totalprod"
+        android:layout_below="@id/lll"
         android:id="@+id/bidlist"
         />
 

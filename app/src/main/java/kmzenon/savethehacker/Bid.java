@@ -5,22 +5,22 @@ package kmzenon.savethehacker;
  */
 public class Bid {
 
-    int quantity, price;
+    String quantity, price;
 
     public Bid(){
 
     }
 
-    public Bid(int quantity, int price) {
+    public Bid(String quantity, String price) {
         this.quantity = quantity;
         this.price = price;
     }
 
-    public int getQuantity() {
+    public String getQuantity() {
         return quantity;
     }
 
-    public int getPrice() {
+    public String getPrice() {
         return price;
     }
 

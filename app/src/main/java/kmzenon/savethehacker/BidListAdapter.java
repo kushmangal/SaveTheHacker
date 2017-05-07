@@ -20,12 +20,12 @@ public class BidListAdapter extends RecyclerView.Adapter<BidListAdapter.MyViewHo
 
         public MyViewHolder(View view) {
             super(view);
-            quantitytv = (TextView) view.findViewById(R.id.bid_quantity);
-            pricetv = (TextView) view.findViewById(R.id.bid_price);
+            quantitytv = (TextView) view.findViewById(R.id.quantity);
+            pricetv = (TextView) view.findViewById(R.id.price);
         }
     }
 
-    public BidListAdapter(List<Agency> agencyList) {
+    public BidListAdapter(List<Bid> bidList) {
         this.bidList = bidList;
     }
 
@@ -40,8 +40,8 @@ public class BidListAdapter extends RecyclerView.Adapter<BidListAdapter.MyViewHo
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Bid bid = bidList.get(position);
-        holder.quantitytv.setText(bid.getQuantity());
-        holder.pricetv.setText(bid.getPrice());
+        holder.quantitytv.setText(bid.getQuantity()+"");
+        holder.pricetv.setText("₹"+bid.getPrice());
     }
 
     @Override

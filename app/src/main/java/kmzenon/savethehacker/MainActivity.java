@@ -54,7 +54,11 @@ public class MainActivity extends AppCompatActivity {
         total = new ArrayList<>();
         remaining = new ArrayList<>();
         id = new ArrayList<>();
-
+        name.clear();
+        msp.clear();
+        total.clear();
+        remaining.clear();
+        id.clear();
         agencyListAdapter = new AgencyListAdapter(agencyList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -148,9 +152,9 @@ public class MainActivity extends AppCompatActivity {
                 msp.add(jmsp);
                 jtot = Integer.parseInt(c.getString("sum(crop.quantity)"));
                 total.add(jtot);
-                jrem = jtot - Integer.parseInt(c.getString("sum(bid.quantity)"));
+                jrem = jtot - Integer.parseInt(c.getString("sum(crop.quantity)"));
                 remaining.add(jrem);
-                agen = Integer.parseInt(c.getString("id"));
+                agen = Integer.parseInt(c.getString("aid"));
                 id.add(agen);
             }
             prepare();

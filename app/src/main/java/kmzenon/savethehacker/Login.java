@@ -71,7 +71,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Start the Signup activity
-                Intent intent = new Intent(getApplicationContext(), CropActivity.class);
+                Intent intent = new Intent(getApplicationContext(), Register.class);
                 startActivityForResult(intent, REQUEST_SIGNUP);
             }
         });
@@ -104,8 +104,6 @@ public class Login extends AppCompatActivity {
                     editor.putBoolean("ISGUEST",false);
                     editor.apply();
                     Toast.makeText(getApplicationContext(), "Login Successful!", Toast.LENGTH_SHORT).show();
-//                    intent1.putExtra("comid",comid);
-//                    intent1.putExtra("guest","");
                     startActivity(intent1);
                 }
                 else {

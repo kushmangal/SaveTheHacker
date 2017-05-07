@@ -1,6 +1,7 @@
 package kmzenon.savethehacker;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -25,6 +27,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -46,7 +51,7 @@ public class BidActivity extends AppCompatActivity {
     private BidListAdapter bidListAdapter;
     private List<Bid> bidList = new ArrayList<>();
     private ArrayList<String> quantities;
-    private ArrayList<Integer> prices;
+    private ArrayList<String> prices;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,66 +60,33 @@ public class BidActivity extends AppCompatActivity {
         nametv = (TextView) findViewById(R.id.bid_agency_name);
         croptv = (TextView) findViewById(R.id.bid_crop);
         msptv = (TextView) findViewById(R.id.bid_msp);
-
+        getSupportActionBar().setTitle("Bidding");
         recyclerView = (RecyclerView) findViewById(R.id.bidlist);
         quantities = new ArrayList<>();
         prices = new ArrayList<>();
-
-        bidListAdapter = new BidListAdapter(bidList);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(bidListAdapter);
-
-        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-
-            GestureDetector gestureDetector = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener() {
-
-                @Override
-                public boolean onSingleTapUp(MotionEvent e) {
-                    return true;
-                }
-
-            });
-
-            @Override
-            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-
-                final View child = rv.findChildViewUnder(e.getX(), e.getY());
-                if (child != null && gestureDetector.onTouchEvent(e)) {
-                    final int i = rv.getChildAdapterPosition(child);
-                }
-                return false;
-            }
-
-            @Override
-            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-            }
-        });
 
         Intent intent = getIntent();
         crop = intent.getStringExtra("crop");
         agency = intent.getStringExtra("agency");
         msp = intent.getStringExtra("msp");
-        remaining = intent.getStringExtra("remaining");
         total = intent.getStringExtra("total");
         id = intent.getStringExtra("id");
         vid=intent.getStringExtra("vid");
 
-        remprodtv = (TextView) findViewById(R.id.bid_remainingprod);
+        bidListAdapter = new BidListAdapter(bidList);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(bidListAdapter);
+        getData();
+
         totprodtv = (TextView) findViewById(R.id.bid_totalprod);
         fab = (FloatingActionButton) findViewById(R.id.makebidfab);
 
         nametv.append(agency);
         msptv.append("₹"+msp);
         croptv.append(crop);
-        remprodtv.append(remaining+" kgs");
         totprodtv.append(total+" kgs");
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -130,32 +102,23 @@ public class BidActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 //                        Toast.makeText(MakeBiddingActivity.this,price.getText().toString(),Toast.LENGTH_SHORT).show();
-                        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://savethe.pe.hu/postbid.php", new Response.Listener<String>() {
+                        String url = "http://savethe.pe.hu/postbid.php?aid="+id+"&crop="+crop+"&vid="+vid+"&price="+price.getText().toString()+"&quantity="+quantity.getText().toString();
+
+                        StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
 //                                        Toast.makeText(getApplicationContext(),cid,Toast.LENGTH_SHORT).show();
                             }
-                        }, new Response.ErrorListener() {
+                        },new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                //   Toast.makeText(mContext, error.toString(), Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(mycontext,error.getMessage().toString(),Toast.LENGTH_LONG).show();
                             }
-                        }) {
-                            @Override
-                            protected Map<String, String> getParams() throws AuthFailureError {
-                                Map<String, String> params = new HashMap<String, String>();
-                                params.put("vid",vid);
-                                params.put("cid",id);
-                                params.put("crop",crop);
-                                params.put("price",price.getText().toString());
-                                params.put("quantity",quantity.getText().toString());
-                                return params;
-                            }
-                        };
+                        });
                         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
                         requestQueue.add(stringRequest);
                         dialog.dismiss();
-//                                Toast.makeText(getApplicationContext(),"User Registered",Toast.LENGTH_SHORT).show();
+                           Toast.makeText(getApplicationContext(),"Bid Registered",Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -170,4 +133,57 @@ public class BidActivity extends AppCompatActivity {
             }
         });
     }
+    public void getData(){
+        String url = "http://savethe.pe.hu/centerbidding.php?aid="+id+"&crop="+crop;
+        // Toast.makeText(mycontext,"getData",Toast.LENGTH_LONG).show();
+        StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                // loading.dismiss();
+                // Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
+                showJSON(response);
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //Toast.makeText(mycontext,error.getMessage().toString(),Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(BidActivity.this);
+        requestQueue.add(stringRequest);
+    }
+    private void showJSON(String response) {
+        String price;
+        String quantity;
+        // Toast.makeText(mycontext,response,Toast.LENGTH_SHORT).show();
+        try {
+            JSONArray contacts = new JSONArray(response);
+            for (int j = 0; j < contacts.length(); j++) {
+                JSONObject c = contacts.getJSONObject(j);
+                price = c.getString("amount");
+                prices.add(price);
+                quantity = c.getString("quantity");
+                quantities.add(quantity);
+
+            }
+            prepare();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    private void prepare() {
+        for (int i = 0; i < prices.size(); i++) {
+
+            String price = prices.get(i);
+            String quantity = quantities.get(i);
+            Bid a = new Bid(price, quantity);
+            bidList.add(a);
+
+        }
+
+        bidListAdapter.notifyDataSetChanged();
+    }
+
 }

@@ -23,7 +23,6 @@ public class AgencyListAdapter extends RecyclerView.Adapter<AgencyListAdapter.My
             nametv = (TextView) view.findViewById(R.id.agency_name);
             msptv = (TextView) view.findViewById(R.id.agency_msp);
             totalprodtv = (TextView) view.findViewById(R.id.agency_total_prod);
-            remainingtv = (TextView) view.findViewById(R.id.agency_remaining_prod);
         }
     }
 
@@ -42,9 +41,8 @@ public class AgencyListAdapter extends RecyclerView.Adapter<AgencyListAdapter.My
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Agency agency = agencyList.get(position);
         holder.nametv.setText(agency.getName());
-        holder.msptv.setText(agency.getMsp() + "");
-        holder.totalprodtv.setText(agency.getTotal_prod()+"");
-        holder.remainingtv.setText(agency.getRemaining_prod()+"");
+        holder.msptv.setText("MSP:"+agency.getMsp() + "");
+        holder.totalprodtv.setText("Total Production:"+agency.getTotal_prod()+"");
     }
 
     @Override
